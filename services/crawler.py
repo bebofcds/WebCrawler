@@ -1,5 +1,5 @@
 from collections import deque  # Import deque for efficient queue operations (FIFO)
-import parser  # Import your custom module that contains the get_links function
+from services import parser  # Import your custom module that contains the get_links function
 from urllib.parse import urljoin  # Import urljoin to convert relative URLs to absolute URLs
 
 # Type: list
