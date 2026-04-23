@@ -5,6 +5,7 @@ from services import failed_links
 client = AsyncIOMotorClient("mongodb://localhost:27017/")
 db = client["WebCrawlerForFCDS"]
 collection = db["history"]
+
 async def insert_data(data):
     copy_data = data.copy()  # Create a copy of the data to avoid modifying the original
     try:
