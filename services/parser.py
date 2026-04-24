@@ -8,14 +8,9 @@ from urllib.parse import urljoin  # Import urljoin to convert relative URLs to a
 logger=logging.getLogger("uvicorn")  # Get the logger for the Uvicorn server (or you can configure your own logger)
 # Type: dict
 # A dictionary containing HTTP headers to make the request look like it's coming from a real browser
-headers = {
-    "User-Agent": "Mozilla/5.0"
-}
-
-
 # Type: function
 # This function takes a URL and returns all links found on that webpage
-def get_links(url):  # Parameter 'url' → Type: str
+def get_links(url , response):  # Parameter 'url' → Type: str
 
     # Type: list
     # Create an empty list to store the links
@@ -23,7 +18,6 @@ def get_links(url):  # Parameter 'url' → Type: str
     try:  # Try block to handle any potential errors gracefully
         # Type: requests.models.Response
         # Send an HTTP GET request with custom headers and timeout
-        response = requests.get(url, headers=headers, timeout=5)
 
         # Type: int
         # Check if the request was successful (HTTP status code 200 = OK)

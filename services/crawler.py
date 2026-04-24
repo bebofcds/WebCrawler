@@ -1,6 +1,9 @@
 from collections import deque
 from urllib.parse import urljoin
 from services import scraper, parser
+import requests
+from bs4 import BeautifulSoup
+
 
 
 def BFS(start_url, max_pages=10):
@@ -8,7 +11,13 @@ def BFS(start_url, max_pages=10):
     graph = {}
     visited = set()
     queue = deque([start_url])
+    headers = {
+        "User-Agent": "Mozilla/5.0"
+    }
 
+    res = requests.get(start_url, headers=headers, timeout=10)
+    soup = BeautifulSoup(res.text , "html.parser")
+    res.raise_for_status()
     while queue and len(visited) < max_pages:
 
         current_url = queue.popleft()
@@ -18,8 +27,8 @@ def BFS(start_url, max_pages=10):
 
         visited.add(current_url)
 
-        data = scraper.scrape_page(current_url)
-        raw_children = parser.get_links(current_url)
+        data = scraper.scrape_page(res)
+        raw_children = parser.get_links(current_url ,res)
 
         clean_children = []
 
@@ -36,4 +45,7 @@ def BFS(start_url, max_pages=10):
             "children": clean_children
         }
 
-    return graph
+    return {
+        "graph" : graph,
+        "title" : soup.title.string
+    }
