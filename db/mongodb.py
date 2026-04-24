@@ -19,3 +19,5 @@ async def find_all_data(collection_name="history"):
     for doc in docs:
         doc["_id"] = str(doc["_id"])  
     return docs  
+async def find_one(url):
+    return await collection.find_one({"result.graph":url})
