@@ -9,7 +9,7 @@ async def crawl(request:Request):
     try:
         body=await request.json()
         url=body["url"]
-        result=await crawl_url(url)
+        result=crawl_url(url)
         error=await insert_data(result)
         if error:
             return JSONResponse(content=error, status_code=400)

@@ -2,6 +2,8 @@ from bs4 import BeautifulSoup  # Import BeautifulSoup for parsing HTML pages
 import requests  # Import requests to send HTTP requests
 from services.failed_links import append_failed_links  # Import your custom module to track failed links (optional)
 import logging  # Import logging for better error handling and debugging
+from urllib.parse import urljoin  # Import urljoin to convert relative URLs to absolute URLs
+
 
 logger=logging.getLogger("uvicorn")  # Get the logger for the Uvicorn server (or you can configure your own logger)
 # Type: dict
@@ -35,7 +37,15 @@ def get_links(url):  # Parameter 'url' → Type: str
 
         # Type: bs4.element.ResultSet (a list-like object containing Tag objects)
         # Find and extract all <a> (anchor) tags from the parsed HTML
-        links = soup.find_all("a",attrs={"href": True})  # Only consider <a> tags that have an 'href' attribute
+        
+    
+        for a in soup.find_all("a", attrs={"href": True}):
+            href = a.get("href")
+            if href:
+                full_url = urljoin(url, href).split("#")[0].split("?")[0]
+                links.append(full_url)
+
+
 
     except:  # Catch any exception that might occur
         pass  # Silently ignore errors (not recommended in production)
