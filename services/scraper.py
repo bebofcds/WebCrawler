@@ -15,4 +15,4 @@ def scrape_page(res, limit=400):
 
     final_text = "\n".join(texts)
 
-    return final_text
+    return final_text,soup.title.string

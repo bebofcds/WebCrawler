@@ -30,15 +30,16 @@ def BFS(start_url, max_pages=10,max_depth=4):
             res = requests.get(current_url, headers=headers, timeout=10)
             res.raise_for_status()
         except Exception as e:
-            failed_links.append_failed_links(current_url)
+            append_failed_links(current_url)
             continue
 
         visited.add(current_url)
 
-        data = scraper.scrape_page(res)
+        data,child_title = scraper.scrape_page(res)
         raw_children = parser.get_links(current_url, res)
 
         clean_children = []
+        
 
         for link in raw_children:
             if link not in visited:
@@ -46,8 +47,9 @@ def BFS(start_url, max_pages=10,max_depth=4):
             clean_children.append(link)
 
         graph[current_url] = {
+            "title":child_title,
             "data": data,
-            "children": clean_children
+            "children": clean_children,
         }
 
     return {
