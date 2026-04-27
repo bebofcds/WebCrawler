@@ -11,15 +11,19 @@ async def crawl(request:Request):
         body=await request.json()
         url=body["url"]
         depth=body["depth"]
+        existing =await find_one(url)
+        if existing:
+            existing["_id"]=str(existing["_id"])
+            return JSONResponse(content=existing,status_code=200)
         result,parser_object=crawl_url(url,max_depth=depth)
         error=await insert_data(result,parser_object)
         if error:
             return JSONResponse(content=error, status_code=500)
-        return {
+        return JSONResponse(content={
         "result: ":result,
         "failed links: ":parser_object.failed_links,
         "outgoing links: ":parser_object.outgoing_links
-        }
+        },status_code=201)
     except Exception as e:
         traceback.print_exc()
         return JSONResponse(content={"error": str(e)}, status_code=500)
