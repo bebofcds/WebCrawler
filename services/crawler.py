@@ -39,4 +39,4 @@ def BFS(start_url, max_pages=10,max_depth=4):
     return {
         "graph" : graph,
         "title" : title_text
-    }
+    },current

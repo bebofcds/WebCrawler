@@ -3,6 +3,7 @@ from fastapi.responses import JSONResponse
 from services.crawler import BFS as crawl_url
 from services.parser import parser
 from db.mongodb import insert_data,find_all_data,find_one
+import traceback
 router= APIRouter()
 @router.post("/crawl")
 async def crawl(request:Request):
@@ -10,17 +11,18 @@ async def crawl(request:Request):
         body=await request.json()
         url=body["url"]
         depth=body["depth"]
-        result=crawl_url(url,max_depth=depth)
+        result,parser_object=crawl_url(url,max_depth=depth)
         error=await insert_data(result)
         if error:
-            return JSONResponse(content=error, status_code=400)
+            return JSONResponse(content=error, status_code=500)
         return {
         "result: ":result,
-        "failed links: ":parser.failed_links,
-        "outgoing links: ":parser.outgoing_links
+        "failed links: ":parser_object.failed_links,
+        "outgoing links: ":parser_object.outgoing_links
         }
     except Exception as e:
-        return JSONResponse(content={"error": str(e)}, status_code=400)
+        traceback.print_exc()
+        return JSONResponse(content={"error": str(e)}, status_code=500)
 @router.get("/history")
 async def history(url:str=Query(None)):
     if url:
