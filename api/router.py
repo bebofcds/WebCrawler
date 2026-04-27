@@ -12,7 +12,7 @@ async def crawl(request:Request):
         url=body["url"]
         depth=body["depth"]
         result,parser_object=crawl_url(url,max_depth=depth)
-        error=await insert_data(result)
+        error=await insert_data(result,parser_object)
         if error:
             return JSONResponse(content=error, status_code=500)
         return {

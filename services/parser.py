@@ -5,7 +5,7 @@ from urllib.parse import urljoin
 class parser:	
 	logger=logging.getLogger("uvicorn")
 	headers={"User-Agent":"Mozilla/5.0"}
-	failed_links=set()
+	failed_links=[]
 	outgoing_links=[]
 	def __init__(self,url):
 		self.soup = None
@@ -48,4 +48,4 @@ class parser:
 		except:
 			return None,None
 	def add_failed_links(self):
-		self.failed_links.add(self.url)
+		self.failed_links.append(self.url)
