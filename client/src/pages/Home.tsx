@@ -1,29 +1,10 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+
 import { FiSearch } from 'react-icons/fi'
 import History from '../components/History'
+import useNode from '../hooks/useNode'
 
 const Home = () => {
-    const [history, setHistory] = useState([])
-    const [loading, setLoading] = useState(false)
-
-    useEffect(() => {
-        const fatchData = async () => {
-            setLoading(true)
-            try {
-                const res = await axios.get("http://localhost:8000/history")
-                setHistory(res.data.history)
-
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setLoading(false)
-            }
-        }
-        fatchData()
-    }, [])
-
-    console.log(history);
+    const { loading, history } = useNode()
     return (
         <div className='w-full  p-7 h-fit flex justify-center items-center'>
             <div className="w-full  p-7 h-fit flex justify-center items-center">
