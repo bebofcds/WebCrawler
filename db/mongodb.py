@@ -7,7 +7,6 @@ db = client["WebCrawlerForFCDS"]
 collection = db["history"]
 
 
-
 async def insert_data(data, parser_object):
     copy_data = data.copy()
     try:
@@ -16,12 +15,15 @@ async def insert_data(data, parser_object):
             "failed_links": parser_object.failed_links
         })
 
-        return {"_id": str(result.inserted_id)} 
+        return {
+            "_id": str(result.inserted_id)
+        }
 
     except DuplicateKeyError:
-        return {"error": "Data with the same _id already exists in the database."}
-
-
+        return {
+            "success": False,
+            "error": "Data with the same _id already exists in the database."
+        }
 async def find_all_data(collection_name="history"):
     collection = db[collection_name]
     cursor = collection.find({})

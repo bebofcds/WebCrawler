@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FiSearch } from 'react-icons/fi'
 import History from '../components/History'
 import Error from '../components/Error'
