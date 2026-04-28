@@ -1,17 +1,14 @@
 import { Link, useNavigate } from "react-router-dom"
 
 const History = ({ history }: { history: any[] }) => {
-    console.log(history);
-    const navigate = useNavigate();
     return (
         <div className="flex flex-wrap gap-5">
             {history.map((data: any, index: number) => {
-
                 const graph = data.result.graph
                 const title = data.result.title
+                const navigate = useNavigate()
                 const rootUrl = Object.keys(graph)[0]
                 const rootNode = graph[rootUrl]
-
                 return (
                     <div key={index}
                         onClick={() => {
@@ -26,9 +23,9 @@ const History = ({ history }: { history: any[] }) => {
                         <div className="ml-4">
                             {rootNode.children.slice(0, 20).map((child: string, i: number) => (
                                 <div key={i}>
-                                    <Link to={`/page?url=${child}`}>
+                                    <div>
                                         {child}
-                                    </Link>
+                                    </div>
                                 </div>
                             ))}
                         </div>

@@ -1,17 +1,27 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo.errors import DuplicateKeyError
-from services import failed_links
+from services.parser import parser
 
 client = AsyncIOMotorClient("mongodb://localhost:27017/")
 db = client["WebCrawlerForFCDS"]
 collection = db["history"]
 
-async def insert_data(data):
-    copy_data = data.copy()  # Create a copy of the data to avoid modifying the original
+
+
+async def insert_data(data, parser_object):
+    copy_data = data.copy()
     try:
-        await collection.insert_one({"result": copy_data,"failed_links": failed_links.failed_links})
+        result = await collection.insert_one({
+            "result": copy_data,
+            "failed_links": parser_object.failed_links
+        })
+
+        return {"_id": str(result.inserted_id)} 
+
     except DuplicateKeyError:
         return {"error": "Data with the same _id already exists in the database."}
+
+
 async def find_all_data(collection_name="history"):
     collection = db[collection_name]
     cursor = collection.find({})
