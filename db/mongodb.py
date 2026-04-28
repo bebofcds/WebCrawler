@@ -1,5 +1,6 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo.errors import DuplicateKeyError
+from bson import ObjectId
 
 client = AsyncIOMotorClient("mongodb://localhost:27017/")
 db = client["WebCrawlerForFCDS"]
@@ -31,29 +32,16 @@ async def find_all_data(limit: int = 20):
     return docs
 
 
-# Find document by URL inside stored graph
-async def find_one(url: str):
-    cursor = collection.find({})
 
-    async for doc in cursor:
-        result = doc.get("result", {})
-        graph = result.get("graph") if isinstance(result, dict) else None
+async def find_one(id: str):
+    try:
+        doc = await collection.find_one({"_id": ObjectId(id)})
 
-        # Case 1: graph is dict
-        if isinstance(graph, dict) and url in graph:
-            doc["_id"] = str(doc["_id"])
-            return doc
+        if not doc:
+            return None
 
-        # Case 2: graph is list of nodes
-        if isinstance(graph, list):
-            for node in graph:
-                if isinstance(node, dict) and node.get("url") == url:
-                    doc["_id"] = str(doc["_id"])
-                    return doc
+        doc["_id"] = str(doc["_id"])  
+        return doc
 
-        # Case 3: direct match
-        if result == url:
-            doc["_id"] = str(doc["_id"])
-            return doc
-
-    return None
+    except Exception:
+        return None

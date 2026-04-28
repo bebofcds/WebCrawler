@@ -51,10 +51,12 @@ async def crawl(request: Request):
 
 
 @router.get("/history")
-async def history(url: str = Query(None)):
+async def history(id: str = Query(None)):
+    print(id)
     try:
-        if url:
-            doc = await find_one(url)
+        if id:
+            doc = await find_one(id)
+            print(doc)
 
             if not doc:
                 return JSONResponse(
@@ -62,8 +64,7 @@ async def history(url: str = Query(None)):
                     status_code=404
                 )
 
-            doc["_id"] = str(doc["_id"])
-            return JSONResponse(content=doc)
+            return JSONResponse(content=doc) 
 
         data = await find_all_data()
 
