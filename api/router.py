@@ -21,17 +21,14 @@ async def crawl(request: Request):
                 status_code=400
             )
 
-        # Check if already exists
         existing = await find_one(url)
 
         if existing:
             existing["_id"] = str(existing["_id"])
             return JSONResponse(content=existing, status_code=200)
 
-        # Run crawler
         result, parser_object = crawl_url(url, max_depth=depth)
 
-        # Save to DB
         response = await insert_data(result, parser_object)
 
         if "error" in response:

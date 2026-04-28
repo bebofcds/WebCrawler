@@ -4,6 +4,7 @@ import { FiSearch } from 'react-icons/fi'
 import History from '../components/History'
 import Error from '../components/Error'
 import { useNavigate } from 'react-router-dom'
+import Loading from '../components/Loading'
 
 const Home = () => {
     const nativate = useNavigate();
@@ -86,19 +87,7 @@ const Home = () => {
                 </div>
 
                 {loading &&
-                    <>
-                        <div
-                            className="fixed left-0 right-0 top-0 bottom-0 
-       bg-black opacity-75">
-
-                        </div>
-
-                        <div className="z-20 text-white 
-       fixed left-15  text-4xl font-bold bottom-10">
-                            loading...
-                        </div>
-
-                    </>
+                  <Loading/>
                 }
             </div>
         </div>

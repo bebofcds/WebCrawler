@@ -1,7 +1,7 @@
 from collections import deque
 from services.parser import parser
 from urllib.parse import urljoin
-def BFS(start_url, max_pages=10,max_depth=4):
+def BFS(start_url, max_pages=30,max_depth=4):
     graph = {}
     visited = set()
     queue = deque([(start_url,0)])
