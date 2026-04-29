@@ -82,16 +82,17 @@ const WebsiteContent = () => {
           </div>
 
           <div className="flex flex-col lg:flex-row gap-6 min-h-[70vh]">
-            <div className="lg:w-2/3 w-full rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div className="lg:w-2/3 w-full overflow-hidden">
               <TreeArea
                 graph={graph}
                 selectedNode={selectedNode}
                 onNodeClick={setSelectedNode}
+                rootUrl={rootUrl}
               />
             </div>
 
             <div className="lg:w-1/3 w-full space-y-6">
-                     {data.failed_links && data.failed_links.length > 0 && (
+              {data.failed_links && data.failed_links.length > 0 && (
                 <FailedLinks data={data} />
               )}
               <div className="p-5">
@@ -142,7 +143,7 @@ const WebsiteContent = () => {
                 )}
               </div>
 
- 
+
 
             </div>
           </div>

@@ -1,8 +1,7 @@
-// Strongly typed graph structure
  export interface GraphNode {
   title: string;
   data: string;
-  children: Array<[string, number]>; // [url, depth] pairs
+  children: Array<[string, number]>; 
 }
 
 export interface GraphData {
