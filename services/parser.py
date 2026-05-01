@@ -25,6 +25,7 @@ class parser:
 		if self.soup is None: 
 			return []
 		links=[]
+		# <a href="https://link.com"></a>
 		for a in self.soup.find_all("a", attrs={"href": True}):
 			href = a.get("href")
 			if href:
@@ -37,7 +38,7 @@ class parser:
 	def get_data(self, limit=400):
 		try:
 			if not self.soup.body:
-				return ""
+				return None,None
 			texts = []
 			for i, text in enumerate(self.soup.body.stripped_strings):
 				if i >= limit:

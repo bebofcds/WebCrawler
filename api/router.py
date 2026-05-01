@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Query, Request
 from fastapi.responses import JSONResponse
 from services.crawler import BFS as crawl_url
-from db.mongodb import insert_data, find_all_data, find_one
+from db.mongodb import insert_data, find_all_data, find_one,find_url
 import traceback
-
+from services.parser import parser
 router = APIRouter()
 
-
+#localhost:8000/crawl
 @router.post("/crawl")
 async def crawl(request: Request):
     try:
@@ -21,7 +21,7 @@ async def crawl(request: Request):
                 status_code=400
             )
 
-        existing = await find_one(url)
+        existing = await find_url(url)
 
         if existing:
             existing["_id"] = str(existing["_id"])
@@ -30,7 +30,9 @@ async def crawl(request: Request):
         result, parser_object = crawl_url(url, max_depth=depth)
 
         response = await insert_data(result, parser_object)
-
+        #Empty the static failed_links and outgoing_links
+        parser.failed_links=[]
+        parser.outgoing_links=[]
         if "error" in response:
             return JSONResponse(content=response, status_code=500)
 

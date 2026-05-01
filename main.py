@@ -4,9 +4,8 @@ from api.router import router
 from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 origins = [
-    "http://localhost:3000",
-    "http://localhost:5173",
-    "*"
+    
+    "http://localhost:5173"    
 ]
 app.add_middleware(
     CORSMiddleware,
@@ -17,3 +16,10 @@ app.add_middleware(
 )
 
 app.include_router(router)
+# @app.post("/crawl")
+# async def func()
+"""
+https://google.com/search?q=youtube
+domain example:
+localhost => 127.0.0.1 
+"""

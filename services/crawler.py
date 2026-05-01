@@ -5,6 +5,7 @@ def BFS(start_url, max_pages=30,max_depth=4):
     graph = {}
     visited = set()
     queue = deque([(start_url,0)])
+    url_object=parser(start_url)
     while queue and len(visited) < max_pages:
         current,depth = queue.popleft()
 
@@ -34,7 +35,7 @@ def BFS(start_url, max_pages=30,max_depth=4):
             "data": data,
             "children": clean_children,
         }
-    title_tag=current.soup.title
+    title_tag=url_object.soup.title if url_object.soup and url_object.soup.tite else None
     title_text=title_tag.string.strip() if title_tag and title_tag.string else ""
     return {
         "graph" : graph,
