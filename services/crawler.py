@@ -1,13 +1,11 @@
 from collections import deque
 from services.parser import parser
-from urllib.parse import urljoin
 def BFS(start_url, max_pages=30,max_depth=4):
     graph = {}
     visited = set()
     queue = deque([(start_url,0)])
     while queue and len(visited) < max_pages:
         current,depth = queue.popleft()
-
         if current in visited:
             continue
         if depth>max_depth:
