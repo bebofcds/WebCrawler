@@ -1,11 +1,9 @@
-# main.py
 from fastapi import FastAPI
 from api.router import router
 from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 origins = [
-    
-    "http://localhost:5173"    
+    "http://localhost:5173",
 ]
 app.add_middleware(
     CORSMiddleware,

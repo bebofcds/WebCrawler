@@ -16,3 +16,5 @@ export interface CrawlResult {
   };
   failed_links?: string[];
 }
+
+
