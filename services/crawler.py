@@ -33,7 +33,7 @@ def BFS(start_url, max_pages=30,max_depth=4):
             "data": data,
             "children": clean_children,
         }
-    title_tag=url_object.soup.title if url_object.soup and url_object.soup.tite else None
+    title_tag=url_object.soup.title #if url_object.soup and url_object.soup.tite else None
     title_text=title_tag.string.strip() if title_tag and title_tag.string else ""
     return {
         "graph" : graph,
