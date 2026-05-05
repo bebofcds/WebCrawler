@@ -12,7 +12,7 @@ const Home = () => {
     const [url, setUrl] = useState("");
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
-
+    
     useEffect(() => {
         setTimeout(() => {
             setError('')

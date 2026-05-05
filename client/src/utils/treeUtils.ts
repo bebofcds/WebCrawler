@@ -7,29 +7,36 @@ export interface TreebeardNode {
   url?: string;
 }
 
+
+export const outgoing= new Set<string>()
+
 export function buildTreebeardData(
   graph: GraphData,
   rootUrl: string,
-  maxDepth = 4
+  maxDepth = 4,
 ): TreebeardNode | null {
+
   const rootNode = graph[rootUrl];
   if (!rootNode) return null;
 
   const visited = new Set<string>();
-
   function dfs(url: string, depth: number): TreebeardNode | null {
+
+
     if (depth > maxDepth || visited.has(url)) return null;
     visited.add(url);
-
     const node = graph[url];
     if (!node) return null;
 
     const children: TreebeardNode[] = [];
+
+
     for (const [childUrl] of node.children) {
       if (graph[childUrl]) {
         const childNode = dfs(childUrl, depth + 1);
         if (childNode) children.push(childNode);
       } else {
+        outgoing.add(childUrl)
         children.push({
           name: childUrl,
           children: [],
@@ -37,7 +44,6 @@ export function buildTreebeardData(
         });
       }
     }
-
     return {
       name: node.title || url,
       children: children.length ? children : undefined,
@@ -46,5 +52,5 @@ export function buildTreebeardData(
     };
   }
 
-  return dfs(rootUrl, 0);
+  return dfs(rootUrl, 0) ;
 }

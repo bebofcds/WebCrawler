@@ -3,9 +3,6 @@ import type { TreebeardNode } from "../utils/treeUtils";
 import type { GraphNode } from "../types/crawler";
 import TreeBranch from "./TreeBranch";
 
-
-
-
 interface TreeViewProps {
   data: TreebeardNode | null;
   onSelect: (node: GraphNode, url: string) => void;
@@ -23,7 +20,6 @@ export default function TreeView({ data, onSelect }: TreeViewProps) {
     }
     return initial;
   });
-
   const handleNodeSelect = useCallback(
     (node: TreebeardNode) => {
       setActiveUrl(node.url || null);
@@ -41,6 +37,7 @@ export default function TreeView({ data, onSelect }: TreeViewProps) {
     [onSelect]
   );
 
+  
   const handleToggle = useCallback((node: TreebeardNode) => {
     const key = node.url || node.name;
     setExpandedSet((prev) => {
@@ -53,7 +50,7 @@ export default function TreeView({ data, onSelect }: TreeViewProps) {
 
   if (!data) {
     return (
-      <div className="text-gray-400 text-center py-12 text-sm">
+      <div className="text-gray-700 text-center py-12 text-sm">
         No tree data available
       </div>
     );

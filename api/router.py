@@ -27,11 +27,11 @@ async def crawl(request: Request):
             }, status_code=200)
 
         result, parser_object = crawl_url(url, max_depth=depth)
+        
+        response = await insert_data(result, parser_object , url)
         #Empty the static fields
         parser.failed_links=[]
         parser.outgoing_links=[]
-        response = await insert_data(result, parser_object , url)
-
         if "error" in response:
             return JSONResponse(content=response, status_code=500)
 
